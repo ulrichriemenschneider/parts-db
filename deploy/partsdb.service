@@ -1,0 +1,20 @@
+[Unit]
+Description=partsDB inventory API
+After=network.target
+
+[Service]
+User=partsdb
+Group=partsdb
+WorkingDirectory=/opt/partsdb
+EnvironmentFile=/etc/partsdb.env
+ExecStart=/opt/partsdb/.venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --access-logfile - --error-logfile - backend.app:create_app()
+Restart=on-failure
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/partsdb /opt/partsdb/instance
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=partsDB consistent SQLite backup
+
+[Service]
+Type=oneshot
+User=partsdb
+Group=partsdb
+WorkingDirectory=/opt/partsdb
+EnvironmentFile=/etc/partsdb.env
+ExecStart=/opt/partsdb/.venv/bin/flask --app backend.app backup /var/lib/partsdb/backups
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/partsdb /opt/partsdb/instance
